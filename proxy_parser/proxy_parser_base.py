@@ -1,5 +1,6 @@
 import abc
 import sys
+import time
 sys.path.append('..')
 print(sys.path)
 from utils.httputil import HttpUtil
@@ -20,3 +21,4 @@ class ProxyParserBase(metaclass=abc.ABCMeta):
         print("ProxyParserBase get_proxies")
         for url in self.start_urls:
             self.parse_response(self.get_response(url))
+            time.sleep(1)
