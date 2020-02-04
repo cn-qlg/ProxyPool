@@ -16,10 +16,6 @@ class ProxyEntity(Model):
 
     class Meta:
         database = db
-        # indexes = (
-        #     # create a unique on from/to/date
-        #     (('city', 'category', 'subcategory', "area"), True),
-        # )
 
     def __str__(self):
         return f"{self.ip}:{self.port} is_https:{self.is_https} is_anonymous:{self.is_anonymous}"

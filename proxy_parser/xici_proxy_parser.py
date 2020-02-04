@@ -1,4 +1,3 @@
-# from proxy_parser.proxy_parser_base import ProxyParserBase
 from proxy_parser.proxy_parser_base import ProxyParserBase
 import requests
 from bs4 import BeautifulSoup
@@ -16,7 +15,7 @@ class XiciProxyParser(ProxyParserBase):
     def parse_response(self, response):
         bs = BeautifulSoup(response, features="html.parser")
         rows = list(bs.findAll("tr"))[1:]
-        ips = []
+        ip_list = []
         for row in rows:
             rowdata = list(row.findAll("td"))
 
@@ -31,16 +30,16 @@ class XiciProxyParser(ProxyParserBase):
                 port = rowdata[2].text.strip()
                 location = rowdata[3].text.strip()
                 is_anonymous = True if rowdata[4].text.strip()  == "高匿" else False
-                https = False if rowdata[5].text.strip().find("HTTPS") == 0 else True
-                ipdata = {"ip": ip, "port": port, "https": https, "country":country, "is_anonymous":is_anonymous, "location":location}
+                https = False if rowdata[5].text.strip() == "HTTPS" else True
+                ipdata = {"ip": ip, "port": port, "full_ip": f"{ip}:{port}","https": https, "country":country, "is_anonymous":is_anonymous, "location":location}
                 print(ipdata)
-                ips.append(ipdata)
+                ip_list.append(ipdata)
             except Exception:
                 print(rowdata)
                 print(row.text)
                 print(rowdata[0])
-        print(len(ips))
-        return ips
+        print(len(ip_list))
+        return ip_list
 
     # def get_proxies(self):
     #     print("11")
